@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Home - Portfolio</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="bg-image"></div>
+  <div class="bg-overlay-layer"></div>
+
+  <header class="header container">
+    <div class="brand">
+      <div class="logo">PB</div>
+      <div>
+        <div id="header-name" data-portfolio-name>Portfolio</div>
+        <div class="subtitle" data-portfolio-tagline></div>
+      </div>
+    </div>
+
+    <nav class="nav" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="skills.html">Skills</a>
+      <a href="experience.html">Experience</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a href="edit.html" style="background:var(--accent);color:#042027">Edit</a>
+    </nav>
+
+    <button id="hamburger" class="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- mobile nav -->
+    <nav id="mobile-nav" class="mobile-nav" aria-hidden="true">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="skills.html">Skills</a>
+      <a href="experience.html">Experience</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a href="edit.html" style="background:var(--accent);color:rgb(255, 255, 255)">Edit</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="left">
+        <h1 data-portfolio-name>Welcome — Your Name</h1>
+        <p data-portfolio-tagline>Tagline goes here</p>
+        <div style="margin-top:20px">
+          <a class="cta" href="projects.html">See Projects</a>
+        </div>
+      </div>
+
+      <div style="min-width:200px;max-width:300px;text-align:center">
+        <div id="profileAvatar" class="avatar" aria-hidden="false"></div>
+        <div style="margin-top:12px;color:var(--muted)">
+          <a class="tag link-linkedin" href="#" style="display:none">LinkedIn</a>
+          <a class="tag link-github" href="#" style="display:none">GitHub</a>
+          <a class="tag link-twitter" href="#" style="display:none">Twitter</a>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:18px">
+      <h2>Featured Projects</h2>
+      <div id="home-projects" class="projects-grid"></div>
+    </section>
+
+    <div class="footer">
+      © <span id="year"></span> — <span data-portfolio-name></span>
+    </div>
+  </main>
+
+  <script src="common.js"></script>
+  <script>
+    const data = loadData();
+    const container = document.getElementById('home-projects');
+    (data.projects || []).slice(0,3).forEach(p => {
+      const card = document.createElement('div'); card.className='card';
+      card.innerHTML = `<h3>${escapeHtml(p.title)}</h3><p>${escapeHtml(p.description||'')}</p>`;
+      container.appendChild(card);
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m])); }
+  </script>
+</body>
+</html>

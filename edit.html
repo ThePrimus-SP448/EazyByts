@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Edit Portfolio</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .editor-grid{display:grid;grid-template-columns:1fr 360px;gap:14px;margin-top:12px}
+    .panel{background:var(--card-bg);padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
+    .list-item{display:flex;justify-content:space-between;align-items:center;padding:8px;margin-top:8px;border-radius:8px;background:rgba(255, 255, 255, 0.02)}
+    .preset-images{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .preset-images img{width:80px;height:56px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid transparent}
+    .preset-images img.selected{border-color:var(--accent)}
+    .avatar-edit{width:120px;height:120px;border-radius:50%;overflow:hidden;background:#0b1220;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;border:3px solid rgba(255,255,255,0.04)}
+    .small{display:flex;gap:8px}
+    .skill-box{background:var(--card-bg);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;align-items:center;width:120px;text-align:center}
+    .skill-box img{margin-bottom:8px}
+    .skill-box button{margin-top:8px}
+  </style>
+</head>
+<body>
+  <div id="bg-image"></div>
+  <div class="bg-overlay-layer"></div>
+
+  <header class="header container">
+    <div class="brand"><div class="logo">PB</div><div><div id="header-name" data-portfolio-name>Portfolio</div><div class="subtitle" data-portfolio-tagline></div></div></div>
+    <nav class="nav" id="nav-links">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="projects.html">Projects</a><a href="skills.html">Skills</a><a href="experience.html">Experience</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a><a href="edit.html" style="background:var(--accent);color:#042027">Edit</a>
+    </nav>
+    <button id="hamburger" class="hamburger"><span></span><span></span><span></span></button>
+    <nav id="mobile-nav" class="mobile-nav">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="projects.html">Projects</a><a href="skills.html">Skills</a><a href="experience.html">Experience</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a><a href="edit.html">Edit</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2>Edit Portfolio</h2>
+    <div class="editor-grid">
+      <div>
+        <div class="panel">
+          <h3>Profile Photo & Basic Info</h3>
+          <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
+            <div id="avatarPreview" class="avatar-edit"></div>
+            <div style="flex:1">
+              <input id="inputName" placeholder="Full name" style="border-radius: 5px;padding: 5px;background-color: #00000058;color: #fff;"/>
+              <input id="inputTagline" placeholder="Short tagline/bio" style="border-radius: 5px;padding: 5px;background-color: #00000058;color: #fff;"/>
+              <div style="margin-top:8px">
+                <label style="font-size:13px;color:var(--muted)">Upload photo</label>
+                <input id="inputPhoto" type="file" accept="image/*" />
+              </div>
+              <div style="margin-top:8px">
+                <label style="font-size:13px;color:var(--muted)">Upload resume (PDF)</label>
+                <input id="inputResume" type="file" accept=".pdf" />
+              </div>
+              <div style="margin-top:10px">
+                <button class="small-btn" id="saveBasic">Save Basic Info</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:12px">
+          <h3>Social Links</h3>
+          <div class="form">
+            <input id="inputLinkedin" placeholder="LinkedIn URL" />
+            <input id="inputGithub" placeholder="GitHub URL" />
+            <input id="inputTwitter" placeholder="Twitter URL" />
+            <div style="margin-top:8px"><button class="small-btn" id="saveSocial">Save Social Links</button></div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:12px">
+          <h3>Projects</h3>
+          <div class="form">
+            <input id="projTitle" placeholder="Project title" />
+            <input id="projDesc" placeholder="Short description" />
+            <div style="margin-top:8px"><button class="small-btn" id="addProject">Add Project</button></div>
+          </div>
+          <div id="projectList"></div>
+        </div>
+
+        <div class="panel" style="margin-top:12px">
+          <h3>Experience</h3>
+          <div class="form">
+            <input id="expRole" placeholder="Role" />
+            <input id="expCompany" placeholder="Company" />
+            <input id="expPeriod" placeholder="Period" />
+            <textarea id="expDetails" rows="3" placeholder="Details"></textarea>
+            <div style="margin-top:8px"><button class="small-btn" id="addExp">Add Experience</button></div>
+          </div>
+          <div id="expList"></div>
+        </div>
+
+        <div class="panel" style="margin-top:12px">
+          <h3>Blog / Posts</h3>
+          <div class="form">
+            <input id="postTitle" placeholder="Title" />
+            <textarea id="postContent" rows="4" placeholder="Content"></textarea>
+            <div style="margin-top:8px"><button class="small-btn" id="addPost">Add Post</button></div>
+          </div>
+          <div id="postList"></div>
+        </div>
+
+        <div class="panel" style="margin-top:12px">
+          <h3>Skills</h3>
+          <div class="form">
+            <input id="skillName" placeholder="Skill name" />
+            <input id="skillCertifications" placeholder="Certifications (comma separated)" />
+            <div style="margin-top:8px">
+              <label style="font-size:13px;color:var(--muted)">Upload skill image</label>
+              <input id="skillImage" type="file" accept="image/*" />
+            </div>
+            <div style="margin-top:8px"><button class="small-btn" id="addSkill">Add Skill</button></div>
+          </div>
+          <div id="skillList" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px"></div>
+        </div>
+      </div>
+
+      <aside>
+        <div class="panel">
+          <h3>Background</h3>
+          <div style="color:var(--muted);font-size:14px;margin-top:6px">Upload a background or choose a preset</div>
+          <div style="margin-top:8px">
+            <input id="bgUpload" type="file" accept="image/*" />
+            <div class="preset-images" id="presetImages" style="margin-top:8px">
+              <!-- If you want additional presets, put images in assets/ and reference them here -->
+              <img src="loginbd3.jpg" data-src="loginbd3.jpg" alt="preset1" class="selected" />
+            </div>
+            <div style="margin-top:8px"><button class="small-btn" id="saveBg">Save Background</button></div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:12px">
+          <h3>Quick Actions</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+            <button class="small-btn" id="exportData">Export JSON</button>
+            <button class="small-btn" id="importBtn">Import JSON</button>
+            <input id="importFile" type="file" accept=".json" style="display:none" />
+            <button class="small-btn" id="resetData">Reset to Default</button>
+            <div style="margin-top:12px">
+              <strong>Preview</strong>
+              <div style="margin-top:8px">
+                <div id="previewAvatar" class="avatar-edit"></div>
+                <div style="margin-top:8px"><strong id="previewName"></strong><div style="color:var(--muted)" id="previewTag"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script src="common.js"></script>
+  <script>
+    // small editor script (uses loadData/saveData from common.js)
+    function initEditor(){
+      const d = loadData();
+      // populate inputs
+      document.getElementById('inputName').value = d.name || '';
+      document.getElementById('inputTagline').value = d.tagline || '';
+      document.getElementById('inputLinkedin').value = d.socials?.linkedin || '';
+      document.getElementById('inputGithub').value = d.socials?.github || '';
+      document.getElementById('inputTwitter').value = d.socials?.twitter || '';
+
+      // preview
+      document.getElementById('previewName').textContent = d.name || '';
+      document.getElementById('previewTag').textContent = d.tagline || '';
+      renderAvatarEdits();
+
+      renderLists();
+    }
+
+    function renderAvatarEdits(){
+      const d = loadData();
+      const preview = document.getElementById('avatarPreview');
+      const preview2 = document.getElementById('previewAvatar');
+      if(d.profilePhoto){
+        preview.style.backgroundImage = `url("${d.profilePhoto}")`;
+        preview.style.backgroundSize = 'cover';
+        preview.style.backgroundPosition = 'center';
+        preview.textContent = '';
+        preview2.style.backgroundImage = `url("${d.profilePhoto}")`;
+        preview2.style.backgroundSize = 'cover';
+        preview2.style.backgroundPosition = 'center';
+        preview2.textContent = '';
+      } else {
+        preview.style.backgroundImage = '';
+        preview.textContent = (d.name||'U').split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase();
+        preview2.style.backgroundImage = '';
+        preview2.textContent = preview.textContent;
+      }
+    }
+
+    // photo upload
+    document.getElementById('inputPhoto').addEventListener('change', e=>{
+      const f = e.target.files[0];
+      if(!f) return;
+      const reader = new FileReader();
+      reader.onload = ev=>{
+        const d = loadData();
+        d.profilePhoto = ev.target.result;
+        saveData(d);
+        renderAvatarEdits();
+        applyCommonData();
+        alert('Profile photo saved.');
+      };
+      reader.readAsDataURL(f);
+    });
+
+    document.getElementById('saveBasic').addEventListener('click', ()=>{
+      const d = loadData();
+      d.name = document.getElementById('inputName').value || d.name;
+      d.tagline = document.getElementById('inputTagline').value || d.tagline;
+      d.socials = d.socials || {};
+      d.socials.linkedin = document.getElementById('inputLinkedin').value || '';
+      d.socials.github = document.getElementById('inputGithub').value || '';
+      d.socials.twitter = document.getElementById('inputTwitter').value || '';
+
+      const file = document.getElementById('inputResume').files[0];
+      if(file){
+        const r = new FileReader();
+        r.onload = e => {
+          d.resume = e.target.result;
+          saveData(d);
+          applyCommonData();
+          alert('Saved basic info + resume.');
+        };
+        r.readAsDataURL(file);
+      } else {
+        saveData(d);
+        applyCommonData();
+        alert('Saved basic info.');
+      }
+      document.getElementById('previewName').textContent = d.name;
+      document.getElementById('previewTag').textContent = d.tagline;
+    });
+
+    document.getElementById('saveSocial').addEventListener('click', ()=>{
+      const d = loadData();
+      d.socials = d.socials || {};
+      d.socials.linkedin = document.getElementById('inputLinkedin').value || '';
+      d.socials.github = document.getElementById('inputGithub').value || '';
+      d.socials.twitter = document.getElementById('inputTwitter').value || '';
+      saveData(d);
+      applyCommonData();
+      alert('Social links saved.');
+    });
+
+    // bg upload/presets
+    document.getElementById('bgUpload').addEventListener('change', e=>{
+      const f = e.target.files[0];
+      if(!f) return;
+      const r = new FileReader();
+      r.onload = ev=>{
+        const d = loadData(); d.background = ev.target.result; saveData(d); applyCommonData(); alert('Background saved.');
+      };
+      r.readAsDataURL(f);
+    });
+    // preset click
+    document.querySelectorAll('.preset-images img').forEach(img=>{
+      img.addEventListener('click', ()=>{
+        document.querySelectorAll('.preset-images img').forEach(i=>i.classList.remove('selected'));
+        img.classList.add('selected');
+        const d = loadData(); d.background = img.dataset.src || img.src; saveData(d); applyCommonData();
+      });
+    });
+
+    // projects CRUD (add/delete/edit)
+    function renderLists(){
+      const d = loadData();
+      const pl = document.getElementById('projectList'); pl.innerHTML = '';
+      (d.projects||[]).forEach(p=>{
+        const r = document.createElement('div'); r.className='list-item';
+        r.innerHTML = `<div><strong>${escapeHtml(p.title)}</strong><div style="color:var(--muted);font-size:13px">${escapeHtml(p.description||'')}</div></div>
+          <div><button class="small-btn" onclick="editProject('${p.id}')">Edit</button> <button class="small-btn" onclick="deleteProject('${p.id}')">Delete</button></div>`;
+        pl.appendChild(r);
+      });
+
+      const ex = document.getElementById('expList'); ex.innerHTML='';
+      (d.experience||[]).forEach(x=>{
+        const it = document.createElement('div'); it.className='list-item';
+        it.innerHTML = `<div><strong>${escapeHtml(x.role)} @ ${escapeHtml(x.company)}</strong></div><div><button class="small-btn" onclick="deleteExp('${x.id}')">Delete</button></div>`;
+        ex.appendChild(it);
+      });
+
+      const pst = document.getElementById('postList'); pst.innerHTML='';
+      (d.blog||[]).forEach(b=>{
+        const it = document.createElement('div'); it.className='list-item';
+        it.innerHTML = `<div><strong>${escapeHtml(b.title)}</strong></div><div><button class="small-btn" onclick="deletePost('${b.id}')">Delete</button></div>`;
+        pst.appendChild(it);
+      });
+
+      const sk = document.getElementById('skillList'); sk.innerHTML = '';
+      (d.skills||[]).forEach((s, index)=>{
+        const skillName = typeof s === 'string' ? s : s.name;
+        const skillImage = typeof s === 'object' ? s.image : '';
+        const skillCertifications = typeof s === 'object' ? s.certifications : '';
+        const skillId = typeof s === 'object' ? s.id : skillName;
+        const it = document.createElement('div'); it.className='skill-box';
+        it.innerHTML = `${skillImage ? `<img src="${skillImage}" alt="${escapeHtml(skillName)}" style="width:60px;height:60px;border-radius:8px;object-fit:cover;margin-bottom:8px;">` : ''}
+          <strong>${escapeHtml(skillName)}</strong>
+          ${skillCertifications ? `<div style="color:var(--muted);font-size:12px;margin-top:4px">${escapeHtml(skillCertifications)}</div>` : ''}
+          <button class="small-btn" onclick="deleteSkill('${skillId}', ${index})">Delete</button>`;
+        sk.appendChild(it);
+      });
+    }
+
+    document.getElementById('addProject').addEventListener('click', ()=>{
+      const title = document.getElementById('projTitle').value.trim();
+      const desc = document.getElementById('projDesc').value.trim();
+      if(!title){ alert('Add a title'); return; }
+      const d = loadData(); d.projects = d.projects || []; d.projects.unshift({ id: genId(), title, description: desc }); saveData(d); document.getElementById('projTitle').value=''; document.getElementById('projDesc').value=''; renderLists(); applyCommonData();
+    });
+    window.deleteProject = function(id){ if(!confirm('Delete project?')) return; const d=loadData(); d.projects=d.projects.filter(p=>p.id!==id); saveData(d); renderLists(); applyCommonData(); }
+    window.editProject = function(id){ const d=loadData(); const p=d.projects.find(x=>x.id===id); if(!p) return; const t=prompt('Edit title', p.title); if(t===null) return; const desc=prompt('Edit description', p.description||''); p.title=t; p.description=desc; saveData(d); renderLists(); applyCommonData(); }
+
+    // experience
+    document.getElementById('addExp').addEventListener('click', ()=>{
+      const role=document.getElementById('expRole').value.trim(); const company=document.getElementById('expCompany').value.trim();
+      const period=document.getElementById('expPeriod').value.trim(); const details=document.getElementById('expDetails').value.trim();
+      if(!role || !company){ alert('Role & company required'); return; }
+      const d=loadData(); d.experience=d.experience||[]; d.experience.unshift({ id: genId(), role, company, period, details }); saveData(d); document.getElementById('expRole').value=''; document.getElementById('expCompany').value=''; document.getElementById('expPeriod').value=''; document.getElementById('expDetails').value=''; renderLists(); applyCommonData();
+    });
+    window.deleteExp = function(id){ if(!confirm('Delete experience?')) return; const d=loadData(); d.experience=d.experience.filter(x=>x.id!==id); saveData(d); renderLists(); applyCommonData(); }
+
+    // blog
+    document.getElementById('addPost').addEventListener('click', ()=>{
+      const title=document.getElementById('postTitle').value.trim(); const content=document.getElementById('postContent').value.trim();
+      if(!title){ alert('Add title'); return; }
+      const d=loadData(); d.blog=d.blog||[]; d.blog.unshift({ id: genId(), title, excerpt: content.slice(0,120), content }); saveData(d); document.getElementById('postTitle').value=''; document.getElementById('postContent').value=''; renderLists(); applyCommonData();
+    });
+    window.deletePost = function(id){ if(!confirm('Delete post?')) return; const d=loadData(); d.blog=d.blog.filter(p=>p.id!==id); saveData(d); renderLists(); applyCommonData(); }
+
+    // skills
+    document.getElementById('addSkill').addEventListener('click', ()=>{
+      const name = document.getElementById('skillName').value.trim();
+      const certifications = document.getElementById('skillCertifications').value.trim();
+      const file = document.getElementById('skillImage').files[0];
+      if(!name){ alert('Add a skill name'); return; }
+      const d = loadData(); d.skills = d.skills || [];
+      const skill = { id: genId(), name, certifications };
+      if(file){
+        const r = new FileReader();
+        r.onload = e => {
+          skill.image = e.target.result;
+          d.skills.unshift(skill);
+          saveData(d);
+          document.getElementById('skillName').value = '';
+          document.getElementById('skillCertifications').value = '';
+          document.getElementById('skillImage').value = '';
+          renderLists();
+          applyCommonData();
+        };
+        r.readAsDataURL(file);
+      } else {
+        d.skills.unshift(skill);
+        saveData(d);
+        document.getElementById('skillName').value = '';
+        document.getElementById('skillCertifications').value = '';
+        renderLists();
+        applyCommonData();
+      }
+    });
+    window.deleteSkill = function(id, index){ if(!confirm('Delete skill?')) return; const d=loadData(); if(id.startsWith('id_')){ d.skills=d.skills.filter(s=>s.id!==id); } else { d.skills.splice(index, 1); } saveData(d); renderLists(); applyCommonData(); }
+
+    // quick actions (export/import/reset)
+    document.getElementById('exportData').addEventListener('click', ()=>{
+      const d = loadData(); const blob = new Blob([JSON.stringify(d, null, 2)], {type:'application/json'}); const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='portfolio-data.json'; a.click(); URL.revokeObjectURL(url);
+    });
+    document.getElementById('importBtn').addEventListener('click', ()=>document.getElementById('importFile').click());
+    document.getElementById('importFile').addEventListener('change', e=>{
+      const f = e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload = ev=>{
+        try{ const parsed = JSON.parse(ev.target.result); saveData(parsed); alert('Imported. Reloading.'); location.reload(); } catch(err){ alert('Invalid JSON'); }
+      }; r.readAsText(f);
+    });
+    document.getElementById('resetData').addEventListener('click', ()=>{ if(!confirm('Reset all data?')) return; localStorage.removeItem('portfolioData_v1'); location.reload(); });
+
+    // helpers
+    function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m])); }
+    function genId(){ return "id_" + Math.random().toString(36).slice(2,9); }
+
+    // init
+    initEditor();
+  </script>
+</body>
+</html>

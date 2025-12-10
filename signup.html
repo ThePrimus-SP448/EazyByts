@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Create Your Portfolio</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        background: url("signup1.webp") no-repeat center center/cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.48);
+        backdrop-filter: blur(3px);
+        z-index: 1;
+    }
+
+    .container {
+        z-index: 2;
+        width: 360px;
+        padding: 28px 28px 35px;
+        background:black;
+        border: 1px solid rgba(255,255,255,0.25);
+        border-radius: 14px;
+        color: white;
+        text-align: center;
+    }
+
+    h2 {
+        margin-bottom: 10px;
+        font-size: 27px;
+        letter-spacing: 0.5px;
+    }
+
+    p {
+        margin-bottom: 18px;
+        color: #dce6ee;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        margin-top: 12px;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+        background: rgba(255,255,255,0.15);
+        color: white;
+        font-size: 15px;
+    }
+
+    input::placeholder {
+        color: #f3f3f3;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        margin-top: 18px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        background: #06b6d4;
+        color: #072027;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 430px) {
+        .container {
+            width: 88%;
+            padding: 22px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="overlay"></div>
+
+<div class="container">
+    <h2>Create Account</h2>
+    <p>Start building your professional portfolio</p>
+
+    <!-- Email Input -->
+    <input type="email" id="email" placeholder="Enter your email" required>
+
+    <!-- Send OTP Button -->
+    <button class="btn" onclick="sendOTP()">Send OTP</button>
+
+    <!-- OTP Input -->
+    <input type="text" id="otp" placeholder="Enter OTP" required>
+
+    <!-- Password Fields -->
+    <input type="password" id="pass" placeholder="Create password" required>
+    <input type="password" id="confirm" placeholder="Confirm password" required>
+
+    <!-- Create Portfolio Button -->
+    <button class="btn" onclick="createAccount()">Start Creating Your Portfolio</button>
+</div>
+
+<script>
+function sendOTP() {
+    const email = document.getElementById("email").value.trim();
+    if (!email) {
+        alert("Please enter your email first.");
+        return;
+    }
+    alert("OTP has been sent to your email! (UI only)");
+}
+
+function createAccount() {
+    const otp = document.getElementById("otp").value.trim();
+    const pass = document.getElementById("pass").value.trim();
+    const confirm = document.getElementById("confirm").value.trim();
+
+    if (!otp || !pass || !confirm) {
+        alert("Please fill all fields.");
+        return;
+    }
+    if (pass !== confirm) {
+        alert("Passwords do not match!");
+        return;
+    }
+
+    alert("Account created successfully! (UI only)");
+}
+</script>
+
+</body>
+</html>

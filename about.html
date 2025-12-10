@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>About - Portfolio</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="bg-image"></div>
+  <div class="bg-overlay-layer"></div>
+
+  <header class="header container">
+    <div class="brand"><div class="logo">PB</div><div><div id="header-name" data-portfolio-name>Portfolio</div><div class="subtitle" data-portfolio-tagline></div></div></div>
+
+    <nav class="nav" id="nav-links">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="projects.html">Projects</a><a href="skills.html">Skills</a><a href="experience.html">Experience</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a><a href="edit.html" style="background:var(--accent);color:#042027">Edit</a>
+    </nav>
+
+    <button id="hamburger" class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <nav id="mobile-nav" class="mobile-nav" aria-hidden="true">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="projects.html">Projects</a><a href="skills.html">Skills</a><a href="experience.html">Experience</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a><a href="edit.html">Edit</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="hero" style="align-items:flex-start;text-align: left;">
+      <div style="flex:1">
+        <h1>About Me</h1>
+        <p data-portfolio-tagline style="margin-top:8px;color:var(--muted)"></p>
+        <div style="margin-top:14px" id="about-bio">
+          <p style="color:var(--muted)">Use the Edit page to update your bio, skills and photo.</p>
+        </div>
+      </div>
+
+      <div style="width:220px;text-align:center">
+        <div id="profileAvatar" class="avatar"></div>
+        <div style="margin-top:10px;color:var(--muted)">
+          <a class="tag link-linkedin" href="#" style="display:none">LinkedIn</a>
+          <a class="tag link-github" href="#" style="display:none">GitHub</a>
+          <a class="tag link-twitter" href="#" style="display:none">Twitter</a>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="footer" style="margin-top:18px">Edit your portfolio via <a href="edit.html" style="color:var(--accent)">Edit</a>.</div>
+  </main>
+
+  <script src="common.js"></script>
+  <script>
+    const data = loadData();
+    const skillsWrap = document.getElementById('about-skills');
+    (data.skills || []).forEach(s => {
+      const el = document.createElement('div'); el.className='tag'; el.textContent = s; skillsWrap.appendChild(el);
+    });
+
+    // Show social links if URLs are set
+    if(data.socials?.linkedin) {
+      document.querySelector('.link-linkedin').href = data.socials.linkedin;
+      document.querySelector('.link-linkedin').style.display = 'inline-block';
+    }
+    if(data.socials?.github) {
+      document.querySelector('.link-github').href = data.socials.github;
+      document.querySelector('.link-github').style.display = 'inline-block';
+    }
+    if(data.socials?.twitter) {
+      document.querySelector('.link-twitter').href = data.socials.twitter;
+      document.querySelector('.link-twitter').style.display = 'inline-block';
+    }
+  </script>
+</body>
+</html>
